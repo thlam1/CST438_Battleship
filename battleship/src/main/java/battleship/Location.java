@@ -1,45 +1,40 @@
 package battleship;
 
 public class Location {
-	private int xBow;
-	private int yBow;
-	private int xStern;
-	private int yStern;
+	private int x; // bow x first coordinate
+	private int y; // bow y first coordinate
+	private String orientation;
 	
 	public Location() {
 	}
 	
-	public Location(int xBow, int yBow, int xStern, int yStern) {
-		this.xBow = xBow;
-		this.yBow = yBow;
-		this.xStern = xStern;
-		this.yStern = yStern;
+	public Location(int x, int y, String orientation) {
+		this.x = x;
+		this.y = y;
+		this.orientation = orientation;
 	}
-	
-	public int getxBow() {
-		return xBow;
+
+	public int getX() {
+		return x;
 	}
-	public void setxBow(int xBow) {
-		this.xBow = xBow;
+
+	public void setX(int x) {
+		this.x = x;
 	}
-	public int getyBow() {
-		return yBow;
+
+	public int getY() {
+		return y;
 	}
-	public void setyBow(int yBow) {
-		this.yBow = yBow;
+
+	public void setY(int y) {
+		this.y = y;
 	}
-	public int getxStern() {
-		return xStern;
+
+	public String getOrientation() {
+		return orientation;
 	}
-	public void setxStern(int xStern) {
-		this.xStern = xStern;
+
+	public void setOrientation(String orientation) {
+		this.orientation = orientation;
 	}
-	public int getyStern() {
-		return yStern;
-	}
-	public void setyStern(int yStern) {
-		this.yStern = yStern;
-	}
-	
-		
 }

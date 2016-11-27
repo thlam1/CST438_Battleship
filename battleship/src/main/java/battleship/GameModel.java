@@ -1,7 +1,7 @@
 package battleship;
 
-import java.util.Arrays;
 import java.util.Hashtable;
+import java.util.UUID;
 
 public class GameModel {
 	/* valid game states:
@@ -12,17 +12,30 @@ public class GameModel {
 	private int gameState = 1;
 	
 	/*
-	 * point grid (track the state of each point on 10 X 10 game grid
+	 * who's turn is it.
 	 */
-	private GridPoint[][] points = new GridPoint[10][10];
-	private Hashtable player1Ships = new Hashtable();
-	private Hashtable player2Ships = new Hashtable();
+	private int playerTurn = 1;
+	
+	/*
+	 * Players point grids (track the state of each point on 10 X 10 game grid
+	 */
+	private GridPoint[][] player1Grid = new GridPoint[10][10];
+	private GridPoint[][] player2Grid = new GridPoint[10][10];
+	
+	/*
+	 * Players ships
+	 */
+	private Hashtable<UUID, Ship> player1Ships = new Hashtable<UUID, Ship>();
+	private Hashtable<UUID, Ship> player2Ships = new Hashtable<UUID, Ship>();
 	
 	public GameModel() {
+		this.gameState = 1;
+		init();
 	}
 
 	public GameModel(int gameState) {
 		this.gameState = gameState;
+		init();
 	}
 
 	public int getGameState() {
@@ -33,27 +46,21 @@ public class GameModel {
 		this.gameState = gameState;
 	}
 
-	public GridPoint[][] getPoints() {
-		return points;
-	}
 
-	public void setPoints(GridPoint[][] points) {
-		this.points = points;
-	}
 
-	public Hashtable getPlayer1Ships() {
+	public Hashtable<UUID, Ship> getPlayer1Ships() {
 		return player1Ships;
 	}
 
-	public void setPlayer1Ships(Hashtable player1Ships) {
+	public void setPlayer1Ships(Hashtable<UUID, Ship> player1Ships) {
 		this.player1Ships = player1Ships;
 	}
 
-	public Hashtable getPlayer2Ships() {
+	public Hashtable<UUID, Ship> getPlayer2Ships() {
 		return player2Ships;
 	}
 
-	public void setPlayer2Ships(Hashtable player2Ships) {
+	public void setPlayer2Ships(Hashtable<UUID, Ship> player2Ships) {
 		this.player2Ships = player2Ships;
 	}
 
@@ -61,16 +68,35 @@ public class GameModel {
 		for(int i = 0; i < 10; i++) {
 			for(int j = 0; j < 10; j++) {
 				GridPoint p = new GridPoint();
-				points[i][j] = p;
+				player1Grid[i][j] = p;
+				player2Grid[i][j] = p;
 			}
 		}
 	}
-	
-	@Override
-	public String toString() {
-		return "GameModel [gameState=" + gameState + ", points=" + Arrays.toString(points) + "]";
+
+
+	public GridPoint[][] getPlayer1Grid() {
+		return player1Grid;
 	}
-	
-	
+
+	public void setPlayer1Grid(GridPoint[][] player1Grid) {
+		this.player1Grid = player1Grid;
+	}
+
+	public GridPoint[][] getPlayer2Grid() {
+		return player2Grid;
+	}
+
+	public void setPlayer2Grid(GridPoint[][] player2Grid) {
+		this.player2Grid = player2Grid;
+	}
+
+	public int getPlayerTurn() {
+		return playerTurn;
+	}
+
+	public void setPlayerTurn(int playerTurn) {
+		this.playerTurn = playerTurn;
+	}
 	
 }

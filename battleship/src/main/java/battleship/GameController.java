@@ -17,7 +17,7 @@ import org.json.simple.JSONObject;
  */
 public class GameController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static Hashtable games = new Hashtable();
+	private static Hashtable<UUID, GameModel> games = new Hashtable<UUID, GameModel>();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -47,7 +47,7 @@ public class GameController extends HttpServlet {
 		 */
 		UUID tmp = UUID.randomUUID();
 		
-		Hashtable p1 = new Hashtable();
+		Hashtable<UUID, Ship> p1 = new Hashtable<UUID, Ship>();
 		
 		p1.put(tmp, new Ship("Carrier", 5, tmp));
 		tmp = UUID.randomUUID();
@@ -59,7 +59,7 @@ public class GameController extends HttpServlet {
 		tmp = UUID.randomUUID();
 		p1.put(tmp, new Ship("Destroyer", 2, tmp));
 		
-		Hashtable p2 = new Hashtable();
+		Hashtable<UUID, Ship> p2 = new Hashtable<UUID, Ship>();
 		tmp = UUID.randomUUID();
 		p2.put(tmp, new Ship("Carrier", 5, tmp));
 		tmp = UUID.randomUUID();
@@ -77,10 +77,13 @@ public class GameController extends HttpServlet {
 		games.put(newGameId, newGame);
 		
 		JSONObject json = new JSONObject();
-		json.put("game_id", newGameId);
-		json.put("player1_ships", newGame.getPlayer1Ships().toString());
-		json.put("player2_ships", newGame.getPlayer2Ships().toString());
-		json.put("grid", newGame.getPoints().toString());
+		json.put("game_id", newGameId.toString());
+		json.put("player1_ships", newGame.getPlayer1Ships());
+		json.put("player2_ships", newGame.getPlayer2Ships());
+		json.put("player1_grid", newGame.getPlayer1Grid().toString());
+		json.put("player2_grid", newGame.getPlayer2Grid().toString());
+		
+		response.addHeader("Content-Type", "application/json");
 		
 		response.getWriter().append(json.toString());
 	}

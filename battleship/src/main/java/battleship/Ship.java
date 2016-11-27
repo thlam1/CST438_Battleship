@@ -38,7 +38,7 @@ public class Ship {
 
 	@Override
 	public String toString() {
-		return "{\"type\":" + type + ", \"spaces\":" + spaces + "}";
+		return "{\"type\":\"" + type + "\", \"spaces\":\"" + spaces + "\"}";
 	}
 	
 	
