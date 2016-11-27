@@ -17,6 +17,17 @@ public class GameModel {
 	private int playerTurn = 1;
 	
 	/*
+	 * player 1 setup complete
+	 */
+	private boolean player1Setup = false;
+	
+	/*
+	 * player 2 setup complete
+	 */
+	private boolean player2Setup = false;
+
+	
+	/*
 	 * Players point grids (track the state of each point on 10 X 10 game grid
 	 */
 	private GridPoint[][] player1Grid = new GridPoint[10][10];
@@ -97,6 +108,22 @@ public class GameModel {
 
 	public void setPlayerTurn(int playerTurn) {
 		this.playerTurn = playerTurn;
+	}
+
+	public boolean isPlayer1Setup() {
+		return player1Setup;
+	}
+
+	public void setPlayer1Setup(boolean player1Setup) {
+		this.player1Setup = player1Setup;
+	}
+
+	public boolean isPlayer2Setup() {
+		return player2Setup;
+	}
+
+	public void setPlayer2Setup(boolean player2Setup) {
+		this.player2Setup = player2Setup;
 	}
 	
 }

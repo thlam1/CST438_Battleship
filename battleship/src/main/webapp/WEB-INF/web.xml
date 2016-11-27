@@ -9,9 +9,22 @@
   	<display-name>GameController</display-name>
   	<description></description>
   	<servlet-class>battleship.GameController</servlet-class>
+    <init-param>
+        <param-name>listings</param-name>
+        <param-value>false</param-value>
+    </init-param>
+    <init-param>
+        <param-name>readonly</param-name>
+        <param-value>false</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
   	<servlet-name>GameController</servlet-name>
   	<url-pattern>/game</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>GameController</servlet-name>
+  	<url-pattern>/game/*</url-pattern>
   </servlet-mapping>
 </web-app>

@@ -3,7 +3,7 @@ package battleship;
 public class Location {
 	private int x; // bow x first coordinate
 	private int y; // bow y first coordinate
-	private String orientation;
+	private String orientation; // vertical or horizontal
 	
 	public Location() {
 	}
@@ -35,6 +35,9 @@ public class Location {
 	}
 
 	public void setOrientation(String orientation) {
+		if(!orientation.equals("vertical") ||  !orientation.equals("horizontal")) {
+			throw new IllegalArgumentException("Only vertical and horizontal are valid arguements");
+		}
 		this.orientation = orientation;
 	}
 }
