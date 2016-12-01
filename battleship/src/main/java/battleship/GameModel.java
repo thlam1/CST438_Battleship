@@ -36,8 +36,8 @@ public class GameModel {
 	/*
 	 * Players ships
 	 */
-	private Hashtable<UUID, Ship> player1Ships = new Hashtable<UUID, Ship>();
-	private Hashtable<UUID, Ship> player2Ships = new Hashtable<UUID, Ship>();
+	private Hashtable<String, Ship> player1Ships = new Hashtable<String, Ship>();
+	private Hashtable<String, Ship> player2Ships = new Hashtable<String, Ship>();
 	
 	public GameModel() {
 		this.gameState = 1;
@@ -59,19 +59,19 @@ public class GameModel {
 
 
 
-	public Hashtable<UUID, Ship> getPlayer1Ships() {
+	public Hashtable<String, Ship> getPlayer1Ships() {
 		return player1Ships;
 	}
 
-	public void setPlayer1Ships(Hashtable<UUID, Ship> player1Ships) {
+	public void setPlayer1Ships(Hashtable<String, Ship> player1Ships) {
 		this.player1Ships = player1Ships;
 	}
 
-	public Hashtable<UUID, Ship> getPlayer2Ships() {
+	public Hashtable<String, Ship> getPlayer2Ships() {
 		return player2Ships;
 	}
 
-	public void setPlayer2Ships(Hashtable<UUID, Ship> player2Ships) {
+	public void setPlayer2Ships(Hashtable<String, Ship> player2Ships) {
 		this.player2Ships = player2Ships;
 	}
 

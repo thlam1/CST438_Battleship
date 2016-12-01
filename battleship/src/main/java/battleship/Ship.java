@@ -9,10 +9,10 @@ public class Ship {
 	int spaces = 0;
 	Location location = null;
 
-	public Ship(String type, int spaces, UUID ship_id) {		
+	public Ship(String type, int spaces) {		
 		this.type = type;
 		this.spaces = spaces;
-		this.ship_id = ship_id;
+		this.ship_id = UUID.randomUUID();
 	}
 	
 	public String getType() {

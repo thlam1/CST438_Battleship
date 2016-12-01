@@ -55,31 +55,21 @@ public class GameController extends HttpServlet {
 		 * The 1990 Milton Bradley version of the rules specify the following
 		 * ships:
 		 */
-		UUID tmp = UUID.randomUUID();
 
-		Hashtable<UUID, Ship> p1 = new Hashtable<UUID, Ship>();
+		Hashtable<String, Ship> p1 = new Hashtable<String, Ship>();
 
-		p1.put(tmp, new Ship("Carrier", 5, tmp));
-		tmp = UUID.randomUUID();
-		p1.put(tmp, new Ship("Battleship", 4, tmp));
-		tmp = UUID.randomUUID();
-		p1.put(tmp, new Ship("Cruiser", 3, tmp));
-		tmp = UUID.randomUUID();
-		p1.put(tmp, new Ship("Submarine", 3, tmp));
-		tmp = UUID.randomUUID();
-		p1.put(tmp, new Ship("Destroyer", 2, tmp));
+		p1.put("Carrier", new Ship("Carrier", 5));
+		p1.put("Battleship", new Ship("Battleship", 4));
+		p1.put("Cruiser", new Ship("Cruiser", 3));
+		p1.put("Submarine", new Ship("Submarine", 3));
+		p1.put("Destroyer", new Ship("Destroyer", 2));
 
-		Hashtable<UUID, Ship> p2 = new Hashtable<UUID, Ship>();
-		tmp = UUID.randomUUID();
-		p2.put(tmp, new Ship("Carrier", 5, tmp));
-		tmp = UUID.randomUUID();
-		p2.put(tmp, new Ship("Battleship", 4, tmp));
-		tmp = UUID.randomUUID();
-		p2.put(tmp, new Ship("Cruiser", 3, tmp));
-		tmp = UUID.randomUUID();
-		p2.put(tmp, new Ship("Submarine", 3, tmp));
-		tmp = UUID.randomUUID();
-		p2.put(tmp, new Ship("Destroyer", 2, tmp));
+		Hashtable<String, Ship> p2 = new Hashtable<String, Ship>();
+		p2.put("Carrier", new Ship("Carrier", 5));
+		p2.put("Battleship", new Ship("Battleship", 4));
+		p2.put("Cruiser", new Ship("Cruiser", 3));
+		p2.put("Submarine", new Ship("Submarine", 3));
+		p2.put("Destroyer", new Ship("Destroyer", 2));
 
 		newGame.setPlayer1Ships(p1);
 		newGame.setPlayer2Ships(p2);
@@ -135,9 +125,9 @@ public class GameController extends HttpServlet {
 				case 1:
 					if(jsonObject.get("player1_ships") != null) {
 						JSONObject p1_s = (JSONObject) jsonObject.get("player1_ships");
-						Hashtable<UUID, Ship> p1Ships = game.getPlayer1Ships();
-						Set<UUID> keys = p1Ships.keySet();
-						for(UUID key: keys){
+						Hashtable<String, Ship> p1Ships = game.getPlayer1Ships();
+						Set<String> keys = p1Ships.keySet();
+						for(String key: keys){
 							JSONObject ship = (JSONObject) p1_s.get(key);
 							JSONObject location = (JSONObject) ship.get("location");
 							int x = Integer.parseInt(location.get("x").toString());
@@ -153,9 +143,9 @@ public class GameController extends HttpServlet {
 					
 					if(jsonObject.get("player2_ships") != null) {
 						JSONObject p2_s = (JSONObject) jsonObject.get("player2_ships");
-						Hashtable<UUID, Ship> p2Ships = game.getPlayer2Ships();
-						Set<UUID> keys = p2Ships.keySet();
-						for(UUID key: keys){
+						Hashtable<String, Ship> p2Ships = game.getPlayer2Ships();
+						Set<String> keys = p2Ships.keySet();
+						for(String key: keys){
 							JSONObject ship = (JSONObject) p2_s.get(key);
 							JSONObject location = (JSONObject) ship.get("location");
 							int x = Integer.parseInt(location.get("x").toString());
