@@ -80,8 +80,6 @@ public class GameController extends HttpServlet {
 		json.put("game_id", newGameId.toString());
 		json.put("player1_ships", newGame.getPlayer1Ships());
 		json.put("player2_ships", newGame.getPlayer2Ships());
-		json.put("player1_grid", newGame.getPlayer1Grid().toString());
-		json.put("player2_grid", newGame.getPlayer2Grid().toString());
 
 		response.addHeader("Content-Type", "application/json");
 
@@ -123,41 +121,41 @@ public class GameController extends HttpServlet {
 			switch(game.getGameState()) {
 				// In game setup
 				case 1:
-					if(jsonObject.get("player1_ships") != null) {
-						JSONObject p1_s = (JSONObject) jsonObject.get("player1_ships");
-						Hashtable<String, Ship> p1Ships = game.getPlayer1Ships();
-						Set<String> keys = p1Ships.keySet();
-						for(String key: keys){
-							JSONObject ship = (JSONObject) p1_s.get(key);
-							JSONObject location = (JSONObject) ship.get("location");
-							int x = Integer.parseInt(location.get("x").toString());
-							int y = Integer.parseInt(location.get("y").toString());
-							String o = location.get("orientation").toString();
-							
-							Location loc = new Location(x, y, o);
-							
-							Ship sp = p1Ships.get(key);
-							sp.setLocation(loc);
-						}
-					}
-					
-					if(jsonObject.get("player2_ships") != null) {
-						JSONObject p2_s = (JSONObject) jsonObject.get("player2_ships");
-						Hashtable<String, Ship> p2Ships = game.getPlayer2Ships();
-						Set<String> keys = p2Ships.keySet();
-						for(String key: keys){
-							JSONObject ship = (JSONObject) p2_s.get(key);
-							JSONObject location = (JSONObject) ship.get("location");
-							int x = Integer.parseInt(location.get("x").toString());
-							int y = Integer.parseInt(location.get("y").toString());
-							String o = location.get("orientation").toString();
-							
-							Location loc = new Location(x, y, o);
-							
-							Ship sp = p2Ships.get(key);
-							sp.setLocation(loc);
-						}
-					}
+//					if(jsonObject.get("player1_ships") != null) {
+//						JSONObject p1_s = (JSONObject) jsonObject.get("player1_ships");
+//						Hashtable<String, Ship> p1Ships = game.getPlayer1Ships();
+//						Set<String> keys = p1Ships.keySet();
+//						for(String key: keys){
+//							JSONObject ship = (JSONObject) p1_s.get(key);
+//							JSONObject location = (JSONObject) ship.get("location");
+//							int x = Integer.parseInt(location.get("x").toString());
+//							int y = Integer.parseInt(location.get("y").toString());
+//							String o = location.get("orientation").toString();
+//							
+//							Location loc = new Location(x, y, o);
+//							
+//							Ship sp = p1Ships.get(key);
+//							sp.setLocation(loc);
+//						}
+//					}
+//					
+//					if(jsonObject.get("player2_ships") != null) {
+//						JSONObject p2_s = (JSONObject) jsonObject.get("player2_ships");
+//						Hashtable<String, Ship> p2Ships = game.getPlayer2Ships();
+//						Set<String> keys = p2Ships.keySet();
+//						for(String key: keys){
+//							JSONObject ship = (JSONObject) p2_s.get(key);
+//							JSONObject location = (JSONObject) ship.get("location");
+//							int x = Integer.parseInt(location.get("x").toString());
+//							int y = Integer.parseInt(location.get("y").toString());
+//							String o = location.get("orientation").toString();
+//							
+//							Location loc = new Location(x, y, o);
+//							
+//							Ship sp = p2Ships.get(key);
+//							sp.setLocation(loc);
+//						}
+//					}
 
 				break;
 				// In game play

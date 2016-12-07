@@ -1,18 +1,14 @@
 package battleship;
 
-import java.util.UUID;
-
 public class Ship {
 	
-	UUID ship_id = null;
 	String type = null;
-	int spaces = 0;
+	int hits = 0;
 	Location location = null;
 
-	public Ship(String type, int spaces) {		
+	public Ship(String type, int hits) {		
 		this.type = type;
-		this.spaces = spaces;
-		this.ship_id = UUID.randomUUID();
+		this.hits = hits;
 	}
 	
 	public String getType() {
@@ -21,11 +17,23 @@ public class Ship {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public int getSpaces() {
-		return spaces;
+	public int getHits() {
+		return hits;
 	}
-	public void setSpaces(int spaces) {
-		this.spaces = spaces;
+	public void setHits(int hits) {
+		this.hits = hits;
+	}
+	
+	public boolean decrementHits() {
+		int h = this.getHits();
+		
+		if(h > 0) {
+			this.setHits(h - 1);
+			return true;
+		}
+		
+		return false;
+		
 	}
 
 	public Location getLocation() {
@@ -38,7 +46,7 @@ public class Ship {
 
 	@Override
 	public String toString() {
-		return "{\"type\":\"" + type + "\", \"spaces\":\"" + spaces + "\"}";
+		return "{\"type\":\"" + type + "\", \"hits\":\"" + hits + "\"}";
 	}
 	
 	

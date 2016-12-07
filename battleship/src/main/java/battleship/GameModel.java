@@ -12,7 +12,7 @@ public class GameModel {
 	private int gameState = 1;
 	
 	/*
-	 * who's turn is it.
+	 * who's turn is it. (1 or 2)
 	 */
 	private int playerTurn = 1;
 	
@@ -25,13 +25,6 @@ public class GameModel {
 	 * player 2 setup complete
 	 */
 	private boolean player2Setup = false;
-
-	
-	/*
-	 * Players point grids (track the state of each point on 10 X 10 game grid
-	 */
-	private GridPoint[][] player1Grid = new GridPoint[10][10];
-	private GridPoint[][] player2Grid = new GridPoint[10][10];
 	
 	/*
 	 * Players ships
@@ -76,30 +69,7 @@ public class GameModel {
 	}
 
 	private void init() {
-		for(int i = 0; i < 10; i++) {
-			for(int j = 0; j < 10; j++) {
-				GridPoint p = new GridPoint();
-				player1Grid[i][j] = p;
-				player2Grid[i][j] = p;
-			}
-		}
-	}
 
-
-	public GridPoint[][] getPlayer1Grid() {
-		return player1Grid;
-	}
-
-	public void setPlayer1Grid(GridPoint[][] player1Grid) {
-		this.player1Grid = player1Grid;
-	}
-
-	public GridPoint[][] getPlayer2Grid() {
-		return player2Grid;
-	}
-
-	public void setPlayer2Grid(GridPoint[][] player2Grid) {
-		this.player2Grid = player2Grid;
 	}
 
 	public int getPlayerTurn() {
