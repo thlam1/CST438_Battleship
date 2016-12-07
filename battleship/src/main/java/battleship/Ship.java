@@ -5,10 +5,21 @@ public class Ship {
 	String type = null;
 	int hits = 0;
 	Location location = null;
+	
+	public Ship() {
+		
+	}
 
 	public Ship(String type, int hits) {		
 		this.type = type;
 		this.hits = hits;
+		this.location = new Location();
+	}
+	
+	public Ship(String type, int hits, Location location) {
+		this.type = type;
+		this.hits = hits;
+		this.location = location;
 	}
 	
 	public String getType() {

@@ -35,10 +35,28 @@ public class GameController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		RestRequest resourceValues = new RestRequest(request.getPathInfo());
+
+		UUID gameId = resourceValues.getId();
+
+		if (gameId.equals(null)) {
+			throw new IllegalArgumentException("A valid game id is required");
+		}
+		
+		GameModel game = games.get(gameId);
+		
+		JSONObject json = new JSONObject();
+		json.put("game_id", gameId.toString());
+		json.put("game_state", game.getGameState());
+		json.put("player1_ships", game.getPlayer1Ships());
+		json.put("player2_ships", game.getPlayer2Ships());
+
+		response.addHeader("Content-Type", "application/json");
+		
+		response.getWriter().append(json.toString());
 	}
 
 	/**
@@ -78,8 +96,6 @@ public class GameController extends HttpServlet {
 
 		JSONObject json = new JSONObject();
 		json.put("game_id", newGameId.toString());
-		json.put("player1_ships", newGame.getPlayer1Ships());
-		json.put("player2_ships", newGame.getPlayer2Ships());
 
 		response.addHeader("Content-Type", "application/json");
 
@@ -174,6 +190,7 @@ public class GameController extends HttpServlet {
 
 		JSONObject json = new JSONObject();
 		json.put("game_id", gameId.toString());
+		json.put("game_state", game.getGameState());
 		json.put("player1_ships", game.getPlayer1Ships());
 		json.put("player2_ships", game.getPlayer2Ships());
 
@@ -219,10 +236,6 @@ public class GameController extends HttpServlet {
 
 		public UUID getId() {
 			return this.id;
-		}
-
-		public void setId(UUID id) {
-			this.id = id;
 		}
 	}
 }
