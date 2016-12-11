@@ -93,10 +93,16 @@ public class GameController extends HttpServlet {
 		newGame.setPlayer2Ships(p2);
 
 		games.put(newGameId, newGame);
+		
+		//Test returning ship
 
+		String playerShips = "{\"Ships\": [{\"ship\": \"Submarine\",\"hits\": \"1\",\"location\": [{\"x\": 1,\"y\": 1,\"hit\": false}, {\"x\": 1,\"y\": 2,\"hit\": true}, {\"x\": 1,\"y\": 3,\"hit\": false}]},{\"ship\":\"Destroyer\",\"hits\": \"1\",\"location\": [{\"x\": 3,\"y\": 1,\"hit\": false}, {\"x\": 4,\"y\": 1,\"hit\": true}]}]}";
+	   String opponentShips = "{\"Ships\": [{\"ship\": \"Submarine\",\"hits\": \"1\",\"location\": [{\"x\": 1,\"y\": 1,\"hit\": false}, {\"x\": 1,\"y\": 2,\"hit\": true}, {\"x\": 1,\"y\": 3,\"hit\": false}]},{\"ship\":\"Destroyer\",\"hits\": \"1\",\"location\": [{\"x\": 3,\"y\": 1,\"hit\": false}, {\"x\": 4,\"y\": 1,\"hit\": true}]}]}";
 		JSONObject json = new JSONObject();
 		json.put("game_id", newGameId.toString());
-
+		json.put("player_fleet", playerShips);
+		json.put("opponent_fleet", opponentShips);
+		
 		response.addHeader("Content-Type", "application/json");
 
 		response.getWriter().append(json.toString());

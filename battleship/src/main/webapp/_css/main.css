@@ -1,0 +1,79 @@
+* {
+	padding: 0px; margin: 0px;
+	font-family: sans-serif;
+}
+
+body {
+	padding: 0px;
+	margin: 0px;
+	background-color: #ffffff;
+}
+
+header {
+	overflow: hidden;
+}
+
+.board {
+	display: inline-block;
+	width: 350px; height: 400px;
+	margin: 20px;
+	padding: 10px;
+	border-radius: 20px;
+	background-color: #CACACA;
+	text-align: center;
+   vertical-align: middle;
+}
+
+.table {
+    display:table; 
+    border-left: 1px solid #012677;
+    border-top: 1px solid #012677;
+    display:table;
+    background-color: #00B4FC; /*012677*/
+    margin: 10px auto;
+}
+
+.row {
+    display:table-row; 
+    clear: both; 
+    overflow: hidden;
+}
+
+.cell {display:table-cell; 
+    border-right: 1px solid #012677; 
+    border-bottom: 1px solid #012677; 
+    width: 30px; height: 30px;
+}
+
+#hints {
+   width: 311px; height: 25px;
+   margin: auto;
+}
+
+.ship {
+	display: table;
+	float: left;
+	margin: 8px 15px 0px 0px;
+	border-left: 1px solid #012677; 
+   border-top: 1px solid #012677;
+   
+}
+
+.hint {
+	 display:table-cell; 
+    border-right: 1px solid #012677; 
+    border-bottom: 1px solid #012677;  
+    width: 10px; height: 10px;
+}
+
+#opponent-grid .cell:hover {
+	background-color: #A7DBD8;
+}
+
+.occupied {
+   background-color: #616668; 
+}
+
+.hit {
+   background-color: #D93D04; 
+}
