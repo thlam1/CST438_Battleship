@@ -12,25 +12,15 @@ public class GameModel {
 	private int gameState = 1;
 	
 	/*
-	 * who's turn is it. (1 or 2)
+	 * Whose turn is it? (1 or 2)
 	 */
 	private int playerTurn = 1;
 	
 	/*
-	 * player 1 setup complete
+	 * Players
 	 */
-	private boolean player1Setup = false;
-	
-	/*
-	 * player 2 setup complete
-	 */
-	private boolean player2Setup = false;
-	
-	/*
-	 * Players ships
-	 */
-	private Hashtable<String, Ship> player1Ships = new Hashtable<String, Ship>();
-	private Hashtable<String, Ship> player2Ships = new Hashtable<String, Ship>();
+	private Player p1;
+	private Player p2;
 	
 	public GameModel() {
 		this.gameState = 1;
@@ -49,25 +39,23 @@ public class GameModel {
 	public void setGameState(int gameState) {
 		this.gameState = gameState;
 	}
-
-
-
-	public Hashtable<String, Ship> getPlayer1Ships() {
-		return player1Ships;
+	
+	public Player getPlayer1() {
+		return p1;
 	}
-
-	public void setPlayer1Ships(Hashtable<String, Ship> player1Ships) {
-		this.player1Ships = player1Ships;
+	
+	public void addPlayer1(Player p) {
+		p1 = p;
 	}
-
-	public Hashtable<String, Ship> getPlayer2Ships() {
-		return player2Ships;
+	
+	public Player getPlayer2() {
+		return p2;
 	}
-
-	public void setPlayer2Ships(Hashtable<String, Ship> player2Ships) {
-		this.player2Ships = player2Ships;
+	
+	public void addPlayer2(Player p) {
+		p2 = p;
 	}
-
+	
 	private void init() {
 
 	}
