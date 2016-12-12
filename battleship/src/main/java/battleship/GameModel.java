@@ -78,22 +78,5 @@ public class GameModel {
 
 	public void setPlayerTurn(int playerTurn) {
 		this.playerTurn = playerTurn;
-	}
-
-	public boolean isPlayer1Setup() {
-		return player1Setup;
-	}
-
-	public void setPlayer1Setup(boolean player1Setup) {
-		this.player1Setup = player1Setup;
-	}
-
-	public boolean isPlayer2Setup() {
-		return player2Setup;
-	}
-
-	public void setPlayer2Setup(boolean player2Setup) {
-		this.player2Setup = player2Setup;
-	}
-	
+	}	
 }
