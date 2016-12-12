@@ -46,17 +46,17 @@ public class GameController extends HttpServlet {
 		if (gameId.equals(null)) {
 			throw new IllegalArgumentException("A valid game id is required");
 		}
-		
+
 		GameModel game = games.get(gameId);
-		
+
 		JSONObject json = new JSONObject();
 		json.put("game_id", gameId.toString());
 		json.put("game_state", game.getGameState());
-		json.put("player1_ships", game.getPlayer1Ships());
-		json.put("player2_ships", game.getPlayer2Ships());
+		json.put("player1_ships", game.getPlayer1().getShips());
+		json.put("player2_ships", game.getPlayer2().getShips());
 
 		response.addHeader("Content-Type", "application/json");
-		
+
 		response.getWriter().append(json.toString());
 	}
 
@@ -71,6 +71,10 @@ public class GameController extends HttpServlet {
 		// Create a new game
 		UUID newGameId = UUID.randomUUID();
 		GameModel newGame = new GameModel(1);
+
+		// Create players
+		newGame.addPlayer1(new Player());
+		newGame.addPlayer2(new ComputerPlayer());
 
 		/* note the 1990 Milton Bradley version of the rules specifies the following ships */
 
@@ -91,24 +95,24 @@ public class GameController extends HttpServlet {
 		p2.put("Destroyer", new Ship("Destroyer", 2));
 
 		// Add the ship tables to the game object
-		newGame.setPlayer1Ships(p1);
-		newGame.setPlayer2Ships(p2);
-		
+		newGame.getPlayer1().setShips(p1);
+		newGame.getPlayer2().setShips(p2);
+
 		// Automatically select ship locations
 		placeShips(newGame,1);
 		placeShips(newGame,2);
 
 		// Store the game in the games Hashtable
 		games.put(newGameId, newGame);
-		
+
 		//Test returning ship
 		String playerShips = "{\"Ships\": [{\"ship\": \"Submarine\",\"hits\": \"1\",\"location\": [{\"x\": 1,\"y\": 1,\"hit\": false}, {\"x\": 1,\"y\": 2,\"hit\": true}, {\"x\": 1,\"y\": 3,\"hit\": false}]},{\"ship\":\"Destroyer\",\"hits\": \"1\",\"location\": [{\"x\": 3,\"y\": 1,\"hit\": false}, {\"x\": 4,\"y\": 1,\"hit\": true}]}]}";
-	    String opponentShips = "{\"Ships\": [{\"ship\": \"Submarine\",\"hits\": \"1\",\"location\": [{\"x\": 1,\"y\": 1,\"hit\": false}, {\"x\": 1,\"y\": 2,\"hit\": true}, {\"x\": 1,\"y\": 3,\"hit\": false}]},{\"ship\":\"Destroyer\",\"hits\": \"1\",\"location\": [{\"x\": 3,\"y\": 1,\"hit\": false}, {\"x\": 4,\"y\": 1,\"hit\": true}]}]}";
+		String opponentShips = "{\"Ships\": [{\"ship\": \"Submarine\",\"hits\": \"1\",\"location\": [{\"x\": 1,\"y\": 1,\"hit\": false}, {\"x\": 1,\"y\": 2,\"hit\": true}, {\"x\": 1,\"y\": 3,\"hit\": false}]},{\"ship\":\"Destroyer\",\"hits\": \"1\",\"location\": [{\"x\": 3,\"y\": 1,\"hit\": false}, {\"x\": 4,\"y\": 1,\"hit\": true}]}]}";
 		JSONObject json = new JSONObject();
 		json.put("game_id", newGameId.toString());
 		json.put("player_fleet", playerShips);
 		json.put("opponent_fleet", opponentShips);
-		
+
 		response.addHeader("Content-Type", "application/json");
 		response.getWriter().append(json.toString());
 	}
@@ -128,7 +132,7 @@ public class GameController extends HttpServlet {
 		if (gameId.equals(null)) {
 			throw new IllegalArgumentException("A valid game id is required");
 		}
-		
+
 		GameModel game = games.get(gameId);
 
 		StringBuffer body = new StringBuffer();
@@ -144,54 +148,54 @@ public class GameController extends HttpServlet {
 		try {
 			JSONParser parser = new JSONParser();
 			JSONObject jsonObject = (JSONObject) parser.parse(body.toString());
-			
+
 			switch(game.getGameState()) {
-				// In game setup
-				case 1:
-//					if(jsonObject.get("player1_ships") != null) {
-//						JSONObject p1_s = (JSONObject) jsonObject.get("player1_ships");
-//						Hashtable<String, Ship> p1Ships = game.getPlayer1Ships();
-//						Set<String> keys = p1Ships.keySet();
-//						for(String key: keys){
-//							JSONObject ship = (JSONObject) p1_s.get(key);
-//							JSONObject location = (JSONObject) ship.get("location");
-//							int x = Integer.parseInt(location.get("x").toString());
-//							int y = Integer.parseInt(location.get("y").toString());
-//							String o = location.get("orientation").toString();
-//							
-//							Location loc = new Location(x, y, o);
-//							
-//							Ship sp = p1Ships.get(key);
-//							sp.setLocation(loc);
-//						}
-//					}
-//					
-//					if(jsonObject.get("player2_ships") != null) {
-//						JSONObject p2_s = (JSONObject) jsonObject.get("player2_ships");
-//						Hashtable<String, Ship> p2Ships = game.getPlayer2Ships();
-//						Set<String> keys = p2Ships.keySet();
-//						for(String key: keys){
-//							JSONObject ship = (JSONObject) p2_s.get(key);
-//							JSONObject location = (JSONObject) ship.get("location");
-//							int x = Integer.parseInt(location.get("x").toString());
-//							int y = Integer.parseInt(location.get("y").toString());
-//							String o = location.get("orientation").toString();
-//							
-//							Location loc = new Location(x, y, o);
-//							
-//							Ship sp = p2Ships.get(key);
-//							sp.setLocation(loc);
-//						}
-//					}
+			// In game setup
+			case 1:
+				//					if(jsonObject.get("player1_ships") != null) {
+				//						JSONObject p1_s = (JSONObject) jsonObject.get("player1_ships");
+				//						Hashtable<String, Ship> p1Ships = game.getPlayer1Ships();
+				//						Set<String> keys = p1Ships.keySet();
+				//						for(String key: keys){
+				//							JSONObject ship = (JSONObject) p1_s.get(key);
+				//							JSONObject location = (JSONObject) ship.get("location");
+				//							int x = Integer.parseInt(location.get("x").toString());
+				//							int y = Integer.parseInt(location.get("y").toString());
+				//							String o = location.get("orientation").toString();
+				//							
+				//							Location loc = new Location(x, y, o);
+				//							
+				//							Ship sp = p1Ships.get(key);
+				//							sp.setLocation(loc);
+				//						}
+				//					}
+				//					
+				//					if(jsonObject.get("player2_ships") != null) {
+				//						JSONObject p2_s = (JSONObject) jsonObject.get("player2_ships");
+				//						Hashtable<String, Ship> p2Ships = game.getPlayer2Ships();
+				//						Set<String> keys = p2Ships.keySet();
+				//						for(String key: keys){
+				//							JSONObject ship = (JSONObject) p2_s.get(key);
+				//							JSONObject location = (JSONObject) ship.get("location");
+				//							int x = Integer.parseInt(location.get("x").toString());
+				//							int y = Integer.parseInt(location.get("y").toString());
+				//							String o = location.get("orientation").toString();
+				//							
+				//							Location loc = new Location(x, y, o);
+				//							
+				//							Ship sp = p2Ships.get(key);
+				//							sp.setLocation(loc);
+				//						}
+				//					}
 
 				break;
 				// In game play
-				case 2:
-					// TODO
+			case 2:
+				// TODO
 				break;
 				// In game results (we have a winner and loser)
-				case 3:
-					// TODO
+			case 3:
+				// TODO
 				break;
 			}
 
@@ -202,8 +206,8 @@ public class GameController extends HttpServlet {
 		JSONObject json = new JSONObject();
 		json.put("game_id", gameId.toString());
 		json.put("game_state", game.getGameState());
-		json.put("player1_ships", game.getPlayer1Ships());
-		json.put("player2_ships", game.getPlayer2Ships());
+		json.put("player1_ships", game.getPlayer1().getShips());
+		json.put("player2_ships", game.getPlayer2().getShips());
 
 		response.addHeader("Content-Type", "application/json");
 
@@ -217,14 +221,17 @@ public class GameController extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	}
-	
+
 	private boolean placeShips(GameModel game,int playerNumber) {
 		// Get the player's table of ships and game grid
 		Hashtable<String,Ship> ships;
+		Player player;
 		if (playerNumber == 1) {
-			ships = game.getPlayer1Ships();
+			player = game.getPlayer1();
+			ships = player.getShips();
 		} else if (playerNumber == 2) {
-			ships = game.getPlayer2Ships();
+			player = game.getPlayer2();
+			ships = player.getShips();
 		} else {
 			// Return false if an invalid player number is provided
 			return false;
@@ -234,7 +241,6 @@ public class GameController extends HttpServlet {
 		Set<String> keys = ships.keySet();
 		for(String key : keys){
 			Ship currentShip = ships.get(key);
-
 			int length = currentShip.getHits();
 
 			// Select a random number 0-1 to determine orientation of ship
@@ -250,7 +256,7 @@ public class GameController extends HttpServlet {
 					// Select a random starting point
 					int x = rand.nextInt(10 - length); // subtract the length so it won't overflow the board
 					int y = rand.nextInt(10);					
-					
+
 					// Create points
 					for (int i = 0; i < length; i++) {
 						currentPoints[i] = new Point(x+i,y,false);
@@ -260,7 +266,7 @@ public class GameController extends HttpServlet {
 					// Select a random starting point
 					int x = rand.nextInt(10);
 					int y = rand.nextInt(10 - length); // subtract the length so it won't overflow the board
-					
+
 					// Create points
 					for (int i = 0; i < length; i++) {
 						currentPoints[i] = new Point(x,y+i,false);
@@ -269,35 +275,21 @@ public class GameController extends HttpServlet {
 
 				// Check if there is already a ship in this location
 				boolean shipOverlaps = false;
-				for (String k : keys) {
+				for (Point p : currentPoints) {
+					shipOverlaps = player.hasShipOnPoint(p);
 					if (shipOverlaps) break; // stop checking if we already know one overlaps
-					
-					// Must check each point of each of the other ships
-					Ship otherShip = ships.get(k);			
-					if (otherShip.getLocation() != null) {
-						// Get the points in the other ship
-						Point[] otherPoints = otherShip.getLocation().getPoints();
-						
-						// Check each point
-						for (Point cp : currentPoints) {
-							for (Point op : otherPoints) {
-								if (cp.getX() == op.getX() && cp.getY() == op.getY()) {
-									shipOverlaps = true;
-								}
-							}
-						}
-					}	
 				}
 
 				// If no ships overlap, set the location for this ship
 				// Otherwise, while loop will restart
 				if (shipOverlaps == false) {
 					currentShip.setLocation(new Location(currentPoints));
+					break;
 				}
 			}
+		} 
+		return true;
 	}
-	return true;
-}
 
 	private class RestRequest {
 		// Accommodate two requests, one for all resources, another for a
