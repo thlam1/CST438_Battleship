@@ -40,5 +40,9 @@ public class Point {
 		this.hit = hit;
 	}
 	
+	public boolean equals(Point p) {
+		return (p.getX() == x && p.getY() == y);
+	}
+	
 
 }
