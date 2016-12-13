@@ -106,12 +106,12 @@ public class GameController extends HttpServlet {
 		games.put(newGameId, newGame);
 
 		//Test returning ship
-		String playerShips = "{\"Ships\": [{\"ship\": \"Submarine\",\"hits\": \"1\",\"location\": [{\"x\": 1,\"y\": 1,\"hit\": false}, {\"x\": 1,\"y\": 2,\"hit\": true}, {\"x\": 1,\"y\": 3,\"hit\": false}]},{\"ship\":\"Destroyer\",\"hits\": \"1\",\"location\": [{\"x\": 3,\"y\": 1,\"hit\": false}, {\"x\": 4,\"y\": 1,\"hit\": true}]}]}";
-		String opponentShips = "{\"Ships\": [{\"ship\": \"Submarine\",\"hits\": \"1\",\"location\": [{\"x\": 1,\"y\": 1,\"hit\": false}, {\"x\": 1,\"y\": 2,\"hit\": true}, {\"x\": 1,\"y\": 3,\"hit\": false}]},{\"ship\":\"Destroyer\",\"hits\": \"1\",\"location\": [{\"x\": 3,\"y\": 1,\"hit\": false}, {\"x\": 4,\"y\": 1,\"hit\": true}]}]}";
+		//String playerShips = "{\"Ships\": [{\"ship\": \"Submarine\",\"hits\": \"1\",\"location\": [{\"x\": 1,\"y\": 1,\"hit\": false}, {\"x\": 1,\"y\": 2,\"hit\": true}, {\"x\": 1,\"y\": 3,\"hit\": false}]},{\"ship\":\"Destroyer\",\"hits\": \"1\",\"location\": [{\"x\": 3,\"y\": 1,\"hit\": false}, {\"x\": 4,\"y\": 1,\"hit\": true}]}]}";
+		//String opponentShips = "{\"Ships\": [{\"ship\": \"Submarine\",\"hits\": \"1\",\"location\": [{\"x\": 1,\"y\": 1,\"hit\": false}, {\"x\": 1,\"y\": 2,\"hit\": true}, {\"x\": 1,\"y\": 3,\"hit\": false}]},{\"ship\":\"Destroyer\",\"hits\": \"1\",\"location\": [{\"x\": 3,\"y\": 1,\"hit\": false}, {\"x\": 4,\"y\": 1,\"hit\": true}]}]}";
 		JSONObject json = new JSONObject();
 		json.put("game_id", newGameId.toString());
-		json.put("player_fleet", playerShips );//newGame.getPlayer1().getShips().toString());
-		json.put("opponent_fleet", opponentShips);//newGame.getPlayer2().getShips().toString());
+		json.put("player_fleet", newGame.getPlayer1().getShips().toString());
+		json.put("opponent_fleet", newGame.getPlayer2().getShips().toString());
 
 		response.addHeader("Content-Type", "application/json");
 		response.getWriter().append(json.toString());
@@ -148,7 +148,7 @@ public class GameController extends HttpServlet {
 		try {
 			JSONParser parser = new JSONParser();
 			JSONObject jsonObject = (JSONObject) parser.parse(body.toString());
-
+			System.out.println(jsonObject.get("x"));
 			switch(game.getGameState()) {
 			case 1:
 				// TODO?
@@ -193,8 +193,11 @@ public class GameController extends HttpServlet {
 		JSONObject json = new JSONObject();
 		json.put("game_id", gameId.toString());
 		json.put("game_state", game.getGameState());
-		json.put("player1_ships", game.getPlayer1().getShips());
-		json.put("player2_ships", game.getPlayer2().getShips());
+		if(true) {
+			json.put("winner", game.getGameState());
+		}
+		json.put("player_fleet", game.getPlayer1().getShips().toString());
+		json.put("opponent_fleet", game.getPlayer2().getShips().toString());
 
 		response.addHeader("Content-Type", "application/json");
 
