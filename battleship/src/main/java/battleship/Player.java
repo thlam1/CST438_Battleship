@@ -10,6 +10,7 @@ public class Player {
 	protected static final int GRID_WIDTH = 10; // the number of squares in a row/column
 	private Point[] guesses;
 	private int numGuesses;
+	private int shipCount;
 	
 	/*
 	 * Ships
@@ -19,6 +20,7 @@ public class Player {
 	public Player() {
 		guesses = new Point[GRID_WIDTH * GRID_WIDTH];
 		numGuesses = 0;
+		shipCount = 0;
 		ships = new Hashtable<String, Ship>();
 	}
 	
@@ -47,6 +49,28 @@ public class Player {
 	
 	public void setShips(Hashtable<String, Ship> ships) {
 		this.ships = ships;
+		shipCount = this.ships.size();
+	}
+	
+	public int getShipCount() {
+		return shipCount;
+	}
+	
+	public boolean decrementShipCount() {
+		if (shipCount > 0) {
+			shipCount--;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean hasShips() {
+		if (shipCount > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public boolean hasShipOnPoint(Point point) {
