@@ -91,9 +91,10 @@ public class Player {
 			
 			if (ship.getLocation() != null) {
 				Point[] shipPoints = ship.getLocation().getPoints();
-			
-				for (Point p : shipPoints) {
-					if (point.equals(p)) return ship;
+				if(shipPoints != null) {
+					for (Point p : shipPoints) {
+						if (point.equals(p)) return ship;
+					}					
 				}
 			}
 		}
