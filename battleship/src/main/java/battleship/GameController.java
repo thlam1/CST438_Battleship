@@ -168,7 +168,15 @@ public class GameController extends HttpServlet {
 				Ship humanShip = human.getShipOnPoint(computerGuess);
 				if (humanShip != null) {
 					// This is a hit
+					humanShip.getLocation().getSinglePoint(computerGuess.getX(),computerGuess.getY()).setHit(true);
 					humanShip.decrementHits();
+					if (humanShip.getHits() == 0) {
+						// Ship was destroyed
+						if (human.hasShips() == false) {
+							// Game is over
+							game.setGameState(2);
+						}
+					}
 				}
 								
 				break;
