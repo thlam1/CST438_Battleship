@@ -44,5 +44,8 @@ public class Point {
 		return (p.getX() == x && p.getY() == y);
 	}
 	
-
+	@Override
+	public String toString() {
+		return "Point [x=" + x + ", y=" + y + ", hit=" + hit + "]";
+	}
 }

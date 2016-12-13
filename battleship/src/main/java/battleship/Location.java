@@ -1,5 +1,7 @@
 package battleship;
 
+import java.util.Arrays;
+
 public class Location {
 	
 	private Point[] points;
@@ -27,4 +29,11 @@ public class Location {
 		}
 		return null;
 	}
+
+	@Override
+	public String toString() {
+		return "Location [points=" + Arrays.toString(points) + "]";
+	}
+	
+	
 }

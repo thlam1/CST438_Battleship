@@ -69,10 +69,9 @@ $(document).ready(function() {
         	            var y_coord = str[str.length - 1];
         	            console.log(x_coord, y_coord);
         	            $.ajax({
-        	               url: "game",   
+        	               url: "game/" + data.game_id,   
         	               method: "PUT",
         	               data : JSON.stringify({
-        	                  game_id: data.game_id,
         	            	  x: x_coord,  
         	                  y: y_coord
         	               }),

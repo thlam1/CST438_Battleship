@@ -110,8 +110,8 @@ public class GameController extends HttpServlet {
 		String opponentShips = "{\"Ships\": [{\"ship\": \"Submarine\",\"hits\": \"1\",\"location\": [{\"x\": 1,\"y\": 1,\"hit\": false}, {\"x\": 1,\"y\": 2,\"hit\": true}, {\"x\": 1,\"y\": 3,\"hit\": false}]},{\"ship\":\"Destroyer\",\"hits\": \"1\",\"location\": [{\"x\": 3,\"y\": 1,\"hit\": false}, {\"x\": 4,\"y\": 1,\"hit\": true}]}]}";
 		JSONObject json = new JSONObject();
 		json.put("game_id", newGameId.toString());
-		json.put("player_fleet", playerShips);
-		json.put("opponent_fleet", opponentShips);
+		json.put("player_fleet", playerShips );//newGame.getPlayer1().getShips().toString());
+		json.put("opponent_fleet", opponentShips);//newGame.getPlayer2().getShips().toString());
 
 		response.addHeader("Content-Type", "application/json");
 		response.getWriter().append(json.toString());
@@ -174,7 +174,7 @@ public class GameController extends HttpServlet {
 						// Ship was destroyed
 						if (human.hasShips() == false) {
 							// Game is over
-							game.setGameState(2);
+							game.setGameState(3);
 						}
 					}
 				}
@@ -290,17 +290,21 @@ public class GameController extends HttpServlet {
 		public RestRequest(String pathInfo) throws ServletException {
 			// regex parse pathInfo
 			Matcher matcher;
+			try {
+				// Check for ID case first, since the All pattern would also match
+				matcher = regExIdPattern.matcher(pathInfo);
+				if (matcher.find()) {
+					this.id = UUID.fromString(matcher.group(1));
+					return;
+				}
 
-			// Check for ID case first, since the All pattern would also match
-			matcher = regExIdPattern.matcher(pathInfo);
-			if (matcher.find()) {
-				this.id = UUID.fromString(matcher.group(1));
-				return;
+				matcher = regExAllPattern.matcher(pathInfo);
+				if (matcher.find())
+					return;				
+			} catch(NullPointerException e) {
+				//blah
 			}
 
-			matcher = regExAllPattern.matcher(pathInfo);
-			if (matcher.find())
-				return;
 
 			throw new ServletException("Invalid URI");
 		}
