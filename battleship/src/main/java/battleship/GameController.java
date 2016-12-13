@@ -137,6 +137,9 @@ public class GameController extends HttpServlet {
 
 		StringBuffer body = new StringBuffer();
 		String line = null;
+		
+		Boolean gameOver = false;
+		
 		try {
 			BufferedReader reader = request.getReader();
 			while ((line = reader.readLine()) != null)
@@ -175,6 +178,7 @@ public class GameController extends HttpServlet {
 						if (human.hasShips() == false) {
 							// Game is over
 							game.setGameState(3);
+							gameOver = true;
 						}
 					}
 				}
@@ -193,8 +197,8 @@ public class GameController extends HttpServlet {
 		JSONObject json = new JSONObject();
 		json.put("game_id", gameId.toString());
 		json.put("game_state", game.getGameState());
-		if(true) {
-			json.put("winner", game.getGameState());
+		if(gameOver) {
+			json.put("winner", "player or computer");
 		}
 		json.put("player_fleet", game.getPlayer1().getShips().toString());
 		json.put("opponent_fleet", game.getPlayer2().getShips().toString());
