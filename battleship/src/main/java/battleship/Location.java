@@ -32,7 +32,7 @@ public class Location {
 
 	@Override
 	public String toString() {
-		return "Location [points=" + Arrays.toString(points) + "]";
+		return Arrays.toString(points);
 	}
 	
 	

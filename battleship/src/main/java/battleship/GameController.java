@@ -3,6 +3,7 @@ package battleship;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Random;
 import java.util.UUID;
@@ -110,8 +111,8 @@ public class GameController extends HttpServlet {
 		//String opponentShips = "{\"Ships\": [{\"ship\": \"Submarine\",\"hits\": \"1\",\"location\": [{\"x\": 1,\"y\": 1,\"hit\": false}, {\"x\": 1,\"y\": 2,\"hit\": true}, {\"x\": 1,\"y\": 3,\"hit\": false}]},{\"ship\":\"Destroyer\",\"hits\": \"1\",\"location\": [{\"x\": 3,\"y\": 1,\"hit\": false}, {\"x\": 4,\"y\": 1,\"hit\": true}]}]}";
 		JSONObject json = new JSONObject();
 		json.put("game_id", newGameId.toString());
-		json.put("player_fleet", newGame.getPlayer1().getShips().toString());
-		json.put("opponent_fleet", newGame.getPlayer2().getShips().toString());
+		json.put("player_fleet", this.shipsToJson(newGame.getPlayer1().getShips()));
+		json.put("opponent_fleet", this.shipsToJson(newGame.getPlayer2().getShips()));
 
 		response.addHeader("Content-Type", "application/json");
 		response.getWriter().append(json.toString());
@@ -200,8 +201,8 @@ public class GameController extends HttpServlet {
 		if(gameOver) {
 			json.put("winner", "player or computer");
 		}
-		json.put("player_fleet", game.getPlayer1().getShips().toString());
-		json.put("opponent_fleet", game.getPlayer2().getShips().toString());
+		json.put("player_fleet", this.shipsToJson(game.getPlayer1().getShips()));
+		json.put("opponent_fleet", this.shipsToJson(game.getPlayer2().getShips()));
 
 		response.addHeader("Content-Type", "application/json");
 
@@ -319,5 +320,19 @@ public class GameController extends HttpServlet {
 		public UUID getId() {
 			return this.id;
 		}
+	}
+	
+	private String shipsToJson(Hashtable<String, Ship> ships) {
+		
+		String shipList[] = new String[5]; 
+		
+		Set<String> keys = ships.keySet();
+		int count = 0;
+		for(String key: keys){
+			shipList[count] = ships.get(key).toString();
+			count++;
+		}
+		String out = "{\"Ships\":" + Arrays.toString(shipList) + "}";
+		return out;
 	}
 }

@@ -57,7 +57,7 @@ public class Ship {
 
 	@Override
 	public String toString() {
-		return "{\"type\":\"" + type + "\", \"hits\":\"" + hits + "\", \"location\":\"" + this.location.toString() + "\"}";
+		return "{\"ship\":\"" + type + "\", \"hits\":\"" + hits + "\", \"location\":" + this.location.toString() + "}";
 	}
 	
 	
