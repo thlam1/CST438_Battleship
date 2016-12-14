@@ -134,13 +134,18 @@ public class GameController extends HttpServlet {
 			throw new IllegalArgumentException("A valid game id is required");
 		}
 
+		// Fetch game data
 		GameModel game = games.get(gameId);
+		Player human = game.getPlayer1();
+		ComputerPlayer computer = (ComputerPlayer)game.getPlayer2();
 
 		StringBuffer body = new StringBuffer();
 		String line = null;
-		
+
+		// Display winner as "human" or "computer" if game is flagged as over
 		Boolean gameOver = false;
-		
+		String winner = "";
+
 		try {
 			BufferedReader reader = request.getReader();
 			while ((line = reader.readLine()) != null)
@@ -152,7 +157,7 @@ public class GameController extends HttpServlet {
 		try {
 			JSONParser parser = new JSONParser();
 			JSONObject jsonObject = (JSONObject) parser.parse(body.toString());
-			System.out.println(jsonObject.get("x"));
+
 			switch(game.getGameState()) {
 			case 1:
 				// TODO?
@@ -160,34 +165,61 @@ public class GameController extends HttpServlet {
 				break;
 			case 2:
 				// Play round
-				
-				// The human always goes first
-				// TODO Human play logic
-				Player human = game.getPlayer1();
-				
-				// Computer turn
-				ComputerPlayer computer = (ComputerPlayer)game.getPlayer2();
-				Point computerGuess = computer.makeGuess();
-				
-				Ship humanShip = human.getShipOnPoint(computerGuess);
-				if (humanShip != null) {
-					// This is a hit
-					humanShip.getLocation().getSinglePoint(computerGuess.getX(),computerGuess.getY()).setHit(true);
-					humanShip.decrementHits();
-					if (humanShip.getHits() == 0) {
+				// The human always goes first	
+				// Get the player's guessed coordinates from the JSON
+				int x = Integer.parseInt((String)jsonObject.get("x"));
+				int y = Integer.parseInt((String)jsonObject.get("y"));
+
+				// Create a Point and save to guesses list
+				Point humanGuess = new Point(x,y,false); 
+				human.addGuess(humanGuess);
+
+				// Attempt to get info for a ship at that location
+				Ship computerShip = computer.getShipOnPoint(humanGuess);
+				if (computerShip != null){
+					// This was a hit, mark the Point as hit
+					computerShip.getLocation().getSinglePoint(x,y).setHit(true);
+					computerShip.decrementHits();
+					if (computerShip.getHits() == 0) {
 						// Ship was destroyed
-						if (human.hasShips() == false) {
-							// Game is over
+						computer.decrementShipCount();
+						if (computer.hasShips() == false) {
+							// Game is over, human won
 							game.setGameState(3);
+							winner = "human";
 							gameOver = true;
 						}
 					}
 				}
-								
+
+
+
+				// Computer turn
+				// The computer will automatically guess a random location
+				Point computerGuess = computer.makeGuess();
+
+				// Attempt to get info for a ship at that location
+				Ship humanShip = human.getShipOnPoint(computerGuess);
+				if (humanShip != null) {
+					// This is a hit, mark the Point as hit
+					humanShip.getLocation().getSinglePoint(computerGuess.getX(),computerGuess.getY()).setHit(true);
+					humanShip.decrementHits();
+					if (humanShip.getHits() == 0) {
+						// Ship was destroyed
+						human.decrementShipCount();
+						if (human.hasShips() == false) {
+							// Game is over
+							game.setGameState(3);
+							winner = "computer";
+							gameOver = true;
+						}
+					}
+				}
+
 				break;
 			case 3:
-				// TODO
-				// In game results (we have a winner and loser)
+				// TODO?
+				// Game is over
 				break;
 			}
 
@@ -199,7 +231,7 @@ public class GameController extends HttpServlet {
 		json.put("game_id", gameId.toString());
 		json.put("game_state", game.getGameState());
 		if(gameOver) {
-			json.put("winner", "player or computer");
+			json.put("winner", winner);
 		}
 		json.put("player_fleet", this.shipsToJson(game.getPlayer1().getShips()));
 		json.put("opponent_fleet", this.shipsToJson(game.getPlayer2().getShips()));
@@ -321,11 +353,11 @@ public class GameController extends HttpServlet {
 			return this.id;
 		}
 	}
-	
+
 	private String shipsToJson(Hashtable<String, Ship> ships) {
-		
+
 		String shipList[] = new String[5]; 
-		
+
 		Set<String> keys = ships.keySet();
 		int count = 0;
 		for(String key: keys){
