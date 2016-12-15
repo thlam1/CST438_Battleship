@@ -2,7 +2,6 @@ package battleship;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Random;
@@ -26,16 +25,11 @@ public class GameController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static Hashtable<UUID, GameModel> games = new Hashtable<UUID, GameModel>();
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
 	public GameController() {
-
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -191,8 +185,6 @@ public class GameController extends HttpServlet {
 						}
 					}
 				}
-
-
 
 				// Computer turn
 				// The computer will automatically guess a random location

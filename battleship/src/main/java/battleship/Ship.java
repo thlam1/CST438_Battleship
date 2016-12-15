@@ -2,14 +2,10 @@ package battleship;
 
 public class Ship {
 	
-	String type = null;
-	int hits = 0;
-	Location location = null;
+	private String type = null;
+	private int hits = 0;
+	private Location location = null;
 	
-	public Ship() {
-		
-	}
-
 	public Ship(String type, int hits) {		
 		this.type = type;
 		this.hits = hits;
@@ -25,12 +21,15 @@ public class Ship {
 	public String getType() {
 		return type;
 	}
+	
 	public void setType(String type) {
 		this.type = type;
 	}
+	
 	public int getHits() {
 		return hits;
 	}
+	
 	public void setHits(int hits) {
 		this.hits = hits;
 	}

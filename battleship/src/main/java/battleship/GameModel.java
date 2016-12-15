@@ -1,8 +1,5 @@
 package battleship;
 
-import java.util.Hashtable;
-import java.util.UUID;
-
 public class GameModel {
 	/* valid game states:
 	 * 1 = setup
@@ -24,12 +21,10 @@ public class GameModel {
 	
 	public GameModel() {
 		this.gameState = 1;
-		init();
 	}
 
 	public GameModel(int gameState) {
 		this.gameState = gameState;
-		init();
 	}
 
 	public int getGameState() {
@@ -54,10 +49,6 @@ public class GameModel {
 	
 	public void addPlayer2(Player p) {
 		p2 = p;
-	}
-	
-	private void init() {
-
 	}
 
 	public int getPlayerTurn() {
